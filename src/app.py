@@ -49,6 +49,11 @@ except ImportError:
 
 app = Flask(__name__)
 
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 class Args:
     def __init__(self, **kwds):
         self.__dict__.update(kwds)
@@ -75,9 +80,14 @@ def process():
     output_path = generate_random_filename(upload_directory,"jpg")
 
     try:
-        url = request.json["url"]
-
-        download(url, input_path)
+        if 'file' in request.files:
+            file = request.files['file']
+            if allowed_file(file.filename):
+                file.save(input_path)
+            
+        else:
+            url = request.json["url"]
+            download(url, input_path)
 
         deblur.test(args.height, args.width, input_path, output_path)
         
@@ -102,6 +112,8 @@ if __name__ == '__main__':
     global train_dir
     global graph
     global sess
+    global ALLOWED_EXTENSIONS
+    ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
     upload_directory = '/src/upload/'
     create_directory(upload_directory)
