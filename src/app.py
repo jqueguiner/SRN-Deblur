@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     create_directory(checkpoint_dir)
 
-    url_prefix = 'http://pretrained-models.auth-18b62333a540498882ff446ab602528b.storage.gra5.cloud.ovh.net/image/SRN-Deblur/'
+    url_prefix = 'http://pretrained-models.auth-18b62333a540498882ff446ab602528b.storage.gra.cloud.ovh.net/image/SRN-Deblur/'
 
     model_zip = "srndeblur_models.zip"
 
